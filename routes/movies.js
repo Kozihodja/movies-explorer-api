@@ -14,7 +14,7 @@ const {
 router.use(validateAuthDate, auth);
 
 router.post('/movies', validateMoviesData, createMovie);
-router.get('/movies', getMovies);
+router.get('/movies', getMovies); //Нет данных от пользователя для валидации
 router.delete('/movies/:movieId', validateMovieId, deleteMovie);
 
 module.exports = router;

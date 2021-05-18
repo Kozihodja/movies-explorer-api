@@ -24,7 +24,7 @@ router.post('/signup', validateCreateUserData, createUser);
 
 router.use(validateAuthDate, auth);
 
-router.get('/users/me/', getUser);
+router.get('/users/me/', getUser); //Нет данных от пользователя для валидации
 router.patch('/users/me', validateUpdatedUsersInfo, updateUser);
 
 module.exports = router;

@@ -18,7 +18,8 @@ node_modules
 
 # Optional npm cache directory
 .npm
-/backend/DATA.env
+DATA.env
+.env
 
 # Optional REPL history
 .DS_Store

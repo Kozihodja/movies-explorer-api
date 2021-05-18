@@ -7,7 +7,6 @@ npm-debug.log*
 node_modules
 /.pnp
 .pnp.js
-/fronrend/DATA.env
 
 # testing
 /coverage
@@ -20,6 +19,8 @@ node_modules
 .npm
 DATA.env
 .env
+request.log
+error.log
 
 # Optional REPL history
 .DS_Store

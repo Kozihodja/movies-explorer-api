@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/moviedb', {
   useFindAndModify: false,
 });
 
-// подключаем мидлвары, роуты и всё остальное...
+// подключаем мидлвары, роуты
 app.use(cors());
 
 app.use(bodyParser.json());

@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const {
   validateAuthDate,
+  validateMoviesData,
+  validateMovieId,
 } = require('../middlewares/validations');
 const auth = require('../middlewares/auth');
 const {
@@ -11,8 +13,8 @@ const {
 
 router.use(validateAuthDate, auth);
 
-router.post('/movies', createMovie);
+router.post('/movies', validateMoviesData, createMovie);
 router.get('/movies', getMovies);
-router.delete('/movies/:movieId', deleteMovie);
+router.delete('/movies/:movieId', validateMovieId, deleteMovie);
 
 module.exports = router;

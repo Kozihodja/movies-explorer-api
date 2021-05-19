@@ -46,6 +46,7 @@ app.use((err, req, res, next) => {
     // проверяем статус и выставляем сообщение в зависимости от него
     message: statusCode === 500 ? `На сервере произошла ошибка ${err}, ${err.code}` : message,
   });
+  next();
 });
 
 app.listen(NODE_ENV === 'production' ? PORT : PORT_CONFIG, () => {

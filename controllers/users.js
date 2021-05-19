@@ -82,8 +82,8 @@ module.exports.updateUser = (req, res, next) => {
     })
     .then((user) => res.json({ user }))
     .catch((err) => {
-      if (err.name === 'CastError') {
-        const error = new CastError('Не верный формат переданных данных.');
+      if (err.code === 11000) {
+        const error = new UsersError('Другой пользователь уже использует переданный email');
         next(error);
       } else {
         next(err);

@@ -8,12 +8,14 @@ const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
 const { NotFoundedError } = require('./requestErrors/NotFoundedError');
+const { PORT_CONFIG, MONGODB_CONFIG } = require('./config');
 
-const { PORT = 3000 } = process.env;
+const { NODE_ENV, PORT = 3000, MONGODB } = process.env;
+
 const app = express();
 
 // подключаемся к серверу mongo
-mongoose.connect('mongodb://localhost:27017/moviedb', {
+mongoose.connect(NODE_ENV === 'production' ? MONGODB : MONGODB_CONFIG, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -37,7 +39,6 @@ app.use(errorLogger); // подключаем логгер ошибок
 
 app.use(errors());
 
-// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
 
@@ -47,5 +48,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(NODE_ENV === 'production' ? PORT : PORT_CONFIG, () => {
 });

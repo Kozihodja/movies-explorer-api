@@ -1,12 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
-// const { ObjectId } = require('mongoose').Types;
-// const validator = require('validator');
-
-module.exports.validateAuthDate = celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string().required(),
-  }).unknown(),
-});
+const { ObjectId } = require('mongoose').Types;
+const validator = require('validator');
 
 module.exports.validateUsersData = celebrate({
   body: Joi.object().keys({
@@ -27,15 +21,20 @@ module.exports.validateCreateUserData = celebrate({
   body: Joi.object().keys({
     email: Joi.string().case('lower').email().required(),
     password: Joi.string().required().pattern(/(?=^.{6,}$)(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).*/),
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
   }),
 });
 
 module.exports.validateMoviesData = celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
-    duration: Joi.string().required(),
-    year: Joi.number().integer().required().min(1888).max(9999),
+    director: Joi.number().required(),
+    duration: Joi.number().required(),
+    year: Joi.number()
+      .integer()
+      .required()
+      .min(1888)
+      .max(9999),
     description: Joi.string().required(),
     image: Joi.string().custom((value, helpers) => {
       if (validator.isURL(value, { protocols: ['http', 'https'], require_protocol: true })) {
@@ -66,22 +65,7 @@ module.exports.validateMoviesData = celebrate({
       .messages({
         'any.required': 'Поле "thumbnail" должно быть заполнено',
       }),
-    movieId: Joi.string()
-    .required()
-    .custom((value, helpers) => {
-      if (ObjectId.isValid(value)) {
-        return value;
-      }
-      return helpers.message('Невалидный movie id');
-    }),
-    owner: Joi.string()
-    .required()
-    .custom((value, helpers) => {
-      if (ObjectId.isValid(value)) {
-        return value;
-      }
-      return helpers.message('Невалидный owner id');
-    }),
+    movieId: Joi.number().required(),
   }),
 });
 

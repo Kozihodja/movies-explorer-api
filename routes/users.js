@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const {
-  validateAuthDate,
   validateUsersData,
   validateCreateUserData,
   validateUpdatedUsersInfo,
@@ -22,9 +21,9 @@ router.get('/crash-test', () => {
 router.post('/signin', validateUsersData, login);
 router.post('/signup', validateCreateUserData, createUser);
 
-router.use(validateAuthDate, auth);
+router.use(auth);
 
-router.get('/users/me/', getUser); //Нет данных от пользователя для валидации
+router.get('/users/me/', getUser);
 router.patch('/users/me', validateUpdatedUsersInfo, updateUser);
 
 module.exports = router;

@@ -3,8 +3,8 @@ const {
   ValidationError,
 } = require('../requestErrors/ValidationError');
 const {
-  DeleteCardError,
-} = require('../requestErrors/DeleteCardError');
+  ForbiddenError,
+} = require('../requestErrors/ForbiddenError');
 const {
   CastError,
 } = require('../requestErrors/CastError');
@@ -76,10 +76,10 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .then((movie) => {
       if (!movie.owner.equals(req.user._id)) {
-        const err = new DeleteCardError('Вы не можете удалить чужую запись');
+        const err = new ForbiddenError('Вы не можете удалить чужую запись');
         next(err);
       } else {
-        Movie.findByIdAndRemove(req.params.movieId).orFail(() => {
+        Movie.remove(req.params.movieId).orFail(() => {
           throw new NotFoundedError('Запрашиваемая запись не найдена.');
         }).then((deletedMovie) => {
           res.json(deletedMovie);

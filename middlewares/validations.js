@@ -28,7 +28,7 @@ module.exports.validateCreateUserData = celebrate({
 module.exports.validateMoviesData = celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
-    director: Joi.number().required(),
+    director: Joi.string().required(),
     duration: Joi.number().required(),
     year: Joi.number()
       .integer()

@@ -7,7 +7,6 @@ const { errors } = require('celebrate');
 const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
-const { NotFoundedError } = require('./requestErrors/NotFoundedError');
 const { PORT_CONFIG, MONGODB_CONFIG } = require('./config');
 
 const { NODE_ENV, PORT = 3000, MONGODB } = process.env;
@@ -30,10 +29,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 app.use(router);
-
-app.use('*', (req, res, next) => {
-  next(new NotFoundedError('Ресурс не найден.'));
-});
 
 app.use(errorLogger); // подключаем логгер ошибок
 

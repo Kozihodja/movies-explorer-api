@@ -8,6 +8,7 @@ const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
 const { PORT_CONFIG, MONGODB_CONFIG } = require('./config');
+const errorHandler = require('./middlewares/error-handler');
 
 const { NODE_ENV, PORT = 3000, MONGODB } = process.env;
 
@@ -34,15 +35,7 @@ app.use(errorLogger); // подключаем логгер ошибок
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-
-  res.status(statusCode).send({
-    // проверяем статус и выставляем сообщение в зависимости от него
-    message: statusCode === 500 ? `На сервере произошла ошибка ${err}, ${err.code}` : message,
-  });
-  next();
-});
+app.use(errorHandler);
 
 app.listen(NODE_ENV === 'production' ? PORT : PORT_CONFIG, () => {
 });

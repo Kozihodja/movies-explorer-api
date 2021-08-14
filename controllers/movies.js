@@ -79,7 +79,7 @@ module.exports.deleteMovie = (req, res, next) => {
         const err = new ForbiddenError('Вы не можете удалить чужую запись');
         next(err);
       } else {
-        Movie.remove(req.params.movieId).orFail(() => {
+        Movie.findByIdAndRemove(req.params.movieId).orFail(() => {
           throw new NotFoundedError('Запрашиваемая запись не найдена.');
         }).then((deletedMovie) => {
           res.json(deletedMovie);
